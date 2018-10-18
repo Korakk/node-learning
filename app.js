@@ -1,12 +1,31 @@
 const express = require('express');
 const app = express(); //Spin up express app.
 const morgan = require('morgan'); //Request Logger
+const bodyParser = require('body-parser');//Parse request body
 
 const productRoutes = require('./api/routes/products'); //ruta per tal de dir a quin fitxer anar a buscar les rutes (get, post ...)
 const orderRoutes = require('./api/routes/orders');
 //Middlewares
 //Indicate the app that has to use morgan to take logs.
 app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json()); 
+
+//Before any request is done we have to "disable" CORS
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*') //second parameter specifies the url that can have acces, no url means all can access.
+    //HEADERS YOU WANT TO SUPPORT
+    res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept, Authoritzation'
+        );
+    if(req.method === 'OPTIONS') {
+        //HTTP VERBS THAT YOU WANT TO SUPPORT.
+        res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+        return res.status(200).json({});
+    }
+    next();
+});
 
 app.use('/products',productRoutes);
 app.use('/orders', orderRoutes);
