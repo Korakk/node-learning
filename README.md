@@ -1,30 +1,30 @@
 # node-learning
 
-##Morgan
+## Morgan
 "Tool" to get show the logs of every http request, it will help us to debug.
 
-##Body-parser
+## Body-parser
 We use this package to parse the body of the request because is not nicely formatted and not easy readable in nodejs.
 
 Body-parser does not support files, it supports URL encoding, bodies and also JSON data. 
 
-####body-parser.url-encoded(extended) --> param extended
+#### body-parser.url-encoded(extended) --> param extended
 If it's true, supports extended bodies with rich data init and if it's false, it just supports simple bodies.
 
 Since express version ~v4.1, body-parser is not needed, express has it installed by default and you can use it express instead of body-parser. For example:
-######BEFORE version 4.1:
+###### BEFORE version 4.1:
 ```
 app.use(body-parser.urlencoded({extended: false}));
 app.use(body-parser.json()); 
 ```
-######AFTER:
+###### AFTER:
 ```
 app.use(express.urlencoded({extended: false}));
 app.use(express.json()); 
 ```
 
 
-##CORS
+## CORS
 Cross-Origin Resource Sharing
 Security measure
 If server and client have the same origin all goes well, but
