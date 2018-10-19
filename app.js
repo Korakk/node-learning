@@ -11,7 +11,7 @@ const orderRoutes = require('./api/routes/orders');
 mongoose.connect("mongodb://admin:"+ process.env.MONGO_ATLAS_PW + "@node-rest-shop-shard-00-00-dp5ql.mongodb.net:27017,node-rest-shop-shard-00-01-dp5ql.mongodb.net:27017,node-rest-shop-shard-00-02-dp5ql.mongodb.net:27017/test?ssl=true&replicaSet=node-rest-shop-shard-0&authSource=admin&retryWrites=true", {
     useNewUrlParser: true
 });
-
+mongoose.Promise = global.Promise;
 //Middlewares
 //Indicate the app that has to use morgan to take logs.
 app.use(morgan('dev'));
