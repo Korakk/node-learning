@@ -2,9 +2,16 @@ const express = require('express');
 const app = express(); //Spin up express app.
 const morgan = require('morgan'); //Request Logger
 const bodyParser = require('body-parser');//Parse request body
+const mongoose = require('mongoose'); //MongoDB use package.
 
 const productRoutes = require('./api/routes/products'); //ruta per tal de dir a quin fitxer anar a buscar les rutes (get, post ...)
 const orderRoutes = require('./api/routes/orders');
+
+//MongoDB connection PATH.
+mongoose.connect("mongodb://admin:"+ process.env.MONGO_ATLAS_PW + "@node-rest-shop-shard-00-00-dp5ql.mongodb.net:27017,node-rest-shop-shard-00-01-dp5ql.mongodb.net:27017,node-rest-shop-shard-00-02-dp5ql.mongodb.net:27017/test?ssl=true&replicaSet=node-rest-shop-shard-0&authSource=admin&retryWrites=true", {
+    useNewUrlParser: true
+});
+
 //Middlewares
 //Indicate the app that has to use morgan to take logs.
 app.use(morgan('dev'));
