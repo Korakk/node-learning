@@ -53,3 +53,5 @@ With patch we can not add any new properties to the DB object that we've created
 Possible errors handled --> Invalid object ID, we get 500.
                         --> Valid ID but no match found, we get 404.
                         --> Valid ID, with match found, we get 200.
+## Creating relations between entities.
+At the schema on the model file, you should use ref and ref should contain the name of the other model.
