@@ -60,3 +60,12 @@ At the schema on the model file, you should use ref and ref should contain the n
 Added after select, it is used to merge a model information with another related model information.
 
 The second argument is a list of properties of the populated object you wanna fetch (same as you pass to a select)
+
+## Parse binary data
+https://stackoverflow.com/questions/16598973/uploading-binary-file-on-node-js
+
+## Image upload "tool"
+### Multer
+Alternative from body-parser which is in the case of form-data.
+
+https://github.com/expressjs/multer

@@ -15,6 +15,7 @@ mongoose.Promise = global.Promise;//Supresses a warning about promises.
 //Middlewares
 //Indicate the app that has to use morgan to take logs.
 app.use(morgan('dev'));
+app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json()); 
 

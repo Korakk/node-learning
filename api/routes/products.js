@@ -1,6 +1,34 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const multer = require('multer');
+
+//implement storage strategy
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './uploads/');//null makes that if not passed this not throws error.
+    },
+    filename: function(req, file, cb){
+        cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname);
+    }
+});
+const fileFilter = (req, file, cb) => {
+    if(file.mimetype === "image/jpeg" || file.mimetype === "image/png" || file.mimetype === "image/jpg"){
+        //accept file
+        cb(null, true);
+    } else {
+        //reject file
+        cb(null, false);
+    }
+}
+
+const upload = multer({
+    storage: storage, limits: {
+    fileSize: 1024 * 1024 * 10
+    },
+    fileFilter: fileFilter
+});//we can pass a config to multer.
+
 
 const Product = require('../models/product.js');
 
@@ -8,7 +36,7 @@ const Product = require('../models/product.js');
 router.get('/', (req, res, next) => {
     Product
     .find()//Without parameters it will get all the options.
-    .select("name price _id")//fetch this field no other data.
+    .select("name price _id productImage")//fetch this field no other data.
     .exec()
     .then(docs => {
         if(docs.length >= 0){
@@ -19,6 +47,7 @@ router.get('/', (req, res, next) => {
                         name: doc.name,
                         price: doc.price,
                         _id: doc._id,
+                        productImage: doc.productImage,
                         //extra information, about how to do a get.
                         request: {
                             type: 'GET',
@@ -42,11 +71,13 @@ router.get('/', (req, res, next) => {
 
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', upload.single('productImage') , (req, res, next) => {//many handlers as u want.
+    console.log(req.file);
     const product = new Product({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
-        price: req.body.price
+        price: req.body.price,
+        productImage: req.file.path
     });
     product.save()
     .then(result => {
@@ -57,6 +88,7 @@ router.post('/', (req, res, next) => {
                 name: result.name,
                 price: result.price,
                 _id: result._id,
+                productImage: result.productImage,
                 request: {
                     type: 'GET',
                     url: 'http://localhost:3000/products/' + result._id
@@ -72,6 +104,7 @@ router.post('/', (req, res, next) => {
 router.get('/:productId', (req, res, next) => {
     const id = req.params.productId;//params--> object with all the params we have.
     Product.findById(id)
+    .select("name price _id productImage")
     .exec()
     .then(doc => {
         console.log("From Database: " + doc);
