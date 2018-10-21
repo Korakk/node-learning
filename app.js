@@ -14,6 +14,7 @@ mongoose.connect("mongodb://admin:"+ process.env.MONGO_ATLAS_PW + "@node-rest-sh
     useNewUrlParser: true
 });
 mongoose.Promise = global.Promise;//Supresses a warning about promises.
+mongoose.set('useCreateIndex', true); //Suppresses the warning about collection.ensureIndex
 //Middlewares
 //Indicate the app that has to use morgan to take logs.
 app.use(morgan('dev'));
