@@ -55,3 +55,8 @@ Possible errors handled --> Invalid object ID, we get 500.
                         --> Valid ID, with match found, we get 200.
 ## Creating relations between entities.
 At the schema on the model file, you should use ref and ref should contain the name of the other model.
+
+## .populate
+Added after select, it is used to merge a model information with another related model information.
+
+The second argument is a list of properties of the populated object you wanna fetch (same as you pass to a select)
