@@ -5,6 +5,7 @@ const userSchema = mongoose.Schema({
     email: { type: String,
         required: true,
         unique: true, //unique does not validate the values.
+        //Email validation regex.
         match: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     }, 
     password: { type: String, required: true}
